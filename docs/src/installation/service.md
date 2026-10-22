@@ -35,7 +35,16 @@ $ sudo sysrc spotifyd_enable=YES # enable starting spotifyd on boot
 
 ## Windows
 
-`spotifyd` can run as a Windows service. Open a terminal as administrator and register the service with `sc.exe`:
+`spotifyd` can run as a Windows service. The scripts in `contrib/windows` install and remove the service. Open a terminal as administrator and run:
+
+```console
+> powershell -ExecutionPolicy Bypass -File contrib\windows\install-service.ps1
+> powershell -ExecutionPolicy Bypass -File contrib\windows\uninstall-service.ps1
+```
+
+By default, the install script uses `target\release\spotifyd.exe` and keeps the configuration and cache in `C:\ProgramData\spotifyd`. To use other paths, give the `-BinaryPath`, `-ConfigPath` and `-CachePath` parameters.
+
+To register the service manually, use `sc.exe`:
 
 ```console
 > sc.exe create spotifyd binPath= "C:\spotifyd\spotifyd.exe --windows-service --config-path C:\spotifyd\spotifyd.conf --cache-path C:\spotifyd\cache" start= auto
