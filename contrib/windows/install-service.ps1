@@ -21,5 +21,9 @@ New-Service -Name spotifyd `
     -BinaryPathName "`"$BinaryPath`" --windows-service --config-path `"$ConfigPath`" --cache-path `"$CachePath`"" `
     -StartupType Automatic | Out-Null
 
+# Windows shows no firewall prompt for a service, so allow Spotify Connect discovery explicitly.
+New-NetFirewallRule -DisplayName 'spotifyd' -Direction Inbound -Action Allow `
+    -Program $BinaryPath -RemoteAddress LocalSubnet | Out-Null
+
 Start-Service spotifyd
 Get-Service spotifyd
