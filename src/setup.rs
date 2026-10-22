@@ -105,6 +105,7 @@ pub(crate) fn initial_state(
             .name(config.device_name.clone())
             .device_type(config.device_type)
             .port(zeroconf_port)
+            .zeroconf_ip(config.zeroconf_ip.into_iter().collect())
             .launch()
             {
                 Ok(discovery_stream) => break Some(discovery_stream),

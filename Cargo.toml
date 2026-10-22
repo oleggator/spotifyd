@@ -89,6 +89,10 @@ assets = [
 [profile.release]
 lto = true
 
+# Sends mDNS through the adapter set with `zeroconf_ip`, see ../libmdns branch multicast-interface.
+[patch.crates-io]
+libmdns = { path = "../libmdns" }
+
 ##### uncomment to test the newest librespot git version
 # [patch.crates-io]
 # librespot-audio = { git = "https://github.com/librespot-org/librespot" }

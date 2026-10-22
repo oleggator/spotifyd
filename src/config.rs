@@ -25,6 +25,7 @@ use std::{
     borrow::Cow,
     convert::TryInto,
     fs,
+    net::IpAddr,
     path::{Path, PathBuf},
     str::FromStr,
 };
@@ -344,6 +345,10 @@ pub struct SharedConfigValues {
     #[arg(long)]
     zeroconf_port: Option<u16>,
 
+    /// The IP address of the network adapter used for Spotify Connect discovery
+    #[arg(long, value_name = "IP")]
+    zeroconf_ip: Option<IpAddr>,
+
     /// The proxy used to connect to spotify's servers
     #[arg(long, value_name = "URL")]
     proxy: Option<String>,
@@ -588,6 +593,7 @@ impl SharedConfigValues {
             on_song_change_hook,
             disable_discovery,
             zeroconf_port,
+            zeroconf_ip,
             proxy,
             device_type,
             max_cache_size,
@@ -639,6 +645,7 @@ pub(crate) struct SpotifydConfig {
     pub(crate) shell: String,
     pub(crate) discovery: bool,
     pub(crate) zeroconf_port: Option<u16>,
+    pub(crate) zeroconf_ip: Option<IpAddr>,
     pub(crate) device_type: LSDeviceType,
     #[cfg(feature = "dbus_mpris")]
     pub(crate) mpris: MprisConfig,
@@ -762,6 +769,7 @@ pub(crate) fn get_internal_config(config: CliConfig) -> SpotifydConfig {
         shell,
         discovery: !config.shared_config.disable_discovery.unwrap_or(false),
         zeroconf_port: config.shared_config.zeroconf_port,
+        zeroconf_ip: config.shared_config.zeroconf_ip,
         device_type,
         #[cfg(unix)]
         pid,

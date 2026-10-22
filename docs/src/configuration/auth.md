@@ -11,6 +11,8 @@ For this to work, you need to make sure that your firewall isn't blocking the di
 - `5353 UDP`: MDNS service advertisement
 - A zeroconf port which uses TCP. By default, it is randomly chosen, but if you want to, you can configure it with the `--zeroconf-port` cli option / `zeroconf_port` config value.
 
+A computer can have virtual network adapters, for example for Hyper-V, WSL or a VPN. The OS can then send the mDNS answers through the wrong adapter, and the device is not visible on the local network. To use only one adapter, set its IP address with the `--zeroconf-ip` cli option / `zeroconf_ip` config value.
+
 If you don't want discovery, because you're using one of the methods below, you can disable it via the `--disable-discovery` cli option / `disable_discovery = true` config value.
 
 > __Note:__ By default, the last active session will be remembered and reconnected once the service is restarted.
