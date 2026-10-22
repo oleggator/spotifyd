@@ -1677,6 +1677,7 @@ checksum = "f9fbbcab51052fe104eb5e5d351cf728d30a5be1fe14d9be8a3b097481fb97de"
 [[package]]
 name = "libmdns"
 version = "0.10.1"
+source = "git+https://github.com/oleggator/spotifyd?branch=libmdns-multicast-interface#66812fd0db7be52427df555c6b88f859acc85fcb"
 dependencies = [
  "byteorder",
  "futures-util",
