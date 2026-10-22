@@ -89,9 +89,9 @@ assets = [
 [profile.release]
 lto = true
 
-# Sends mDNS through the adapter set with `zeroconf_ip`.
+# libmdns with a fix that sends mDNS through the adapter set with `zeroconf_ip`.
 [patch.crates-io]
-libmdns = { git = "https://github.com/oleggator/spotifyd", branch = "libmdns-multicast-interface" }
+libmdns = { path = "vendor/libmdns" }
 
 ##### uncomment to test the newest librespot git version
 # [patch.crates-io]
