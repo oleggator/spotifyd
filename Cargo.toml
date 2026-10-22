@@ -55,6 +55,9 @@ pledge = "0.4.2"
 [target.'cfg(not(any(target_arch = "aarch64", target_arch = "x86_64")))'.dependencies]
 aws-lc-rs = { version = "1.12.6", features = ["bindgen"] }
 
+[target.'cfg(windows)'.dependencies]
+windows-service = "0.8.1"
+
 [dev-dependencies]
 env_logger = "0.11"
 

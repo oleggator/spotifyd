@@ -232,6 +232,11 @@ pub struct CliConfig {
     #[arg(long)]
     pub no_daemon: bool,
 
+    /// If set, runs spotifyd as a Windows service. Only the service control manager uses this flag.
+    #[cfg(windows)]
+    #[arg(long)]
+    pub windows_service: bool,
+
     /// Path to PID file.
     #[cfg(unix)]
     #[arg(long, value_name = "PATH")]

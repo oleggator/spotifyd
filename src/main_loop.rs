@@ -163,7 +163,7 @@ impl MainLoop {
 
     pub(crate) async fn run(mut self) -> eyre::Result<()> {
         tokio::pin! {
-            let ctrl_c = tokio::signal::ctrl_c();
+            let ctrl_c = shutdown_signal();
             // we don't necessarily have a dbus server
             let dbus_server = Either::<DbusServer, _>::Right(future::pending());
         }
@@ -293,4 +293,15 @@ impl MainLoop {
         }
         mainloop_result
     }
+}
+
+/// Resolves when the program should shut down.
+async fn shutdown_signal() {
+    #[cfg(windows)]
+    tokio::select! {
+        _ = tokio::signal::ctrl_c() => {}
+        _ = crate::win_service::SHUTDOWN.notified() => {}
+    }
+    #[cfg(not(windows))]
+    let _ = tokio::signal::ctrl_c().await;
 }

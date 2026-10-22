@@ -27,6 +27,8 @@ mod oauth;
 mod process;
 mod setup;
 mod utils;
+#[cfg(windows)]
+mod win_service;
 
 enum LogTarget {
     Terminal,
@@ -116,6 +118,11 @@ fn main() -> eyre::Result<()> {
 
     let cli_config = CliConfig::parse();
 
+    #[cfg(windows)]
+    if cli_config.windows_service {
+        return win_service::run();
+    }
+
     match cli_config.mode {
         None => run_daemon(cli_config),
         Some(ExecutionMode::Authenticate { oauth_port }) => run_oauth(cli_config, oauth_port),
@@ -141,7 +148,7 @@ fn run_daemon(mut cli_config: CliConfig) -> eyre::Result<()> {
         }
         #[cfg(target_os = "windows")]
         {
-            if std::env::var("SPOTIFYD_CHILD").is_ok() {
+            if std::env::var("SPOTIFYD_CHILD").is_ok() || cli_config.windows_service {
                 LogTarget::Syslog
             } else {
                 LogTarget::Terminal

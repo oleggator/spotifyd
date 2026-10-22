@@ -32,3 +32,24 @@ When installed via the package manager, the following commands are available:
 $ sudo service spotifyd onestart # start spotifyd once
 $ sudo sysrc spotifyd_enable=YES # enable starting spotifyd on boot
 ```
+
+## Windows
+
+`spotifyd` can run as a Windows service. Open a terminal as administrator and register the service with `sc.exe`:
+
+```console
+> sc.exe create spotifyd binPath= "C:\spotifyd\spotifyd.exe --windows-service --config-path C:\spotifyd\spotifyd.conf --cache-path C:\spotifyd\cache" start= auto
+> sc.exe start spotifyd
+```
+
+The service runs as the `LocalSystem` account by default, so it cannot find the configuration and cache in your user folders. Give both paths on the command line, as in the example above.
+If you log in with OAuth, run `spotifyd authenticate --cache-path C:\spotifyd\cache` once before you start the service.
+
+The service writes its log to `C:\Windows\System32\config\systemprofile\AppData\Local\spotifyd\.spotifyd.log`.
+
+To stop and remove the service, run:
+
+```console
+> sc.exe stop spotifyd
+> sc.exe delete spotifyd
+```
